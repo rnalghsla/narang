@@ -19,11 +19,13 @@ public class ReviewDao {
 		return instance;
 	}
 	
+	
 	/**
 	 * 1. 일반 후기 쓰기 : insertGeneralReview
-	 * Insert into review values(seq_review_rid.nextval, ?,?,?,?,?,?,?);
+	 * @param dto 입력한 후기 정보
+	 * @return 성공한 쿼리문 라인 수 반환
 	 */
-	public int  insertGeneralReview(Review dto) {
+	public int  inserReview(Review dto) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		
@@ -39,7 +41,7 @@ public class ReviewDao {
 			conn = factory.getConnection();
 			StringBuilder sql = new StringBuilder();
 			sql.append("insert into review ");
-			sql.append("values(seq_review_rid.nextval, ?, ?, ?, ?, ?, ?, ?)");
+			sql.append("values(review_count.nextval, ?, ?, ?, ?, ?, ?, ?)");
 			pstmt = conn.prepareStatement(sql.toString());
 			
 			pstmt.setInt(1, rType);
@@ -62,49 +64,50 @@ public class ReviewDao {
 	
 	/**
 	 * 2. 공지사항글쓰기 : insertNoticeReview
-	 * Insert into review values(seq_review_rid.nextval, ?,?,?,?,?,null,0);
+	 * @param dto 입력한 공지사항 정보
+	 * @return 성공한 쿼리문 라인 수 반환
 	 */
-	public int  insertNoticeReview(Review dto) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		
-		int rType = dto.getrType();
-		String uId = dto.getuId();
-		String rTitle = dto.getrTitle();
-		String rContent = dto.getrContent();
-		String rDate = dto.getrDate();
-		String rImg = dto.getrImg();
-		int rHit = dto.getrHit();
-		
-		try {
-			conn = factory.getConnection();
-			StringBuilder sql = new StringBuilder();
-			sql.append("insert into comments ");
-			sql.append("values(seq_review_rid.nextval, ?, ?, ?, ?, ?, ?, ?)");
-			pstmt = conn.prepareStatement(sql.toString());
-			
-			pstmt.setInt(1, rType);
-			pstmt.setString(2, uId);
-			pstmt.setString(3, rTitle);
-			pstmt.setString(4, rContent);
-			pstmt.setString(5, rDate);
-			pstmt.setString(6, rImg);
-			pstmt.setInt(7, rHit);
-			
-			return pstmt.executeUpdate();
-		} catch (SQLException e) {
-			System.out.println("Error : 등록 오류");
-			e.printStackTrace();
-		} finally {
-			factory.close(conn, pstmt);
-		}
-		return 0;
-	}
+//	public int  insertNoticeReview(Review dto) {
+//		Connection conn = null;
+//		PreparedStatement pstmt = null;
+//		
+//		int rType = dto.getrType();
+//		String uId = dto.getuId();
+//		String rTitle = dto.getrTitle();
+//		String rContent = dto.getrContent();
+//		String rDate = dto.getrDate();
+//		String rImg = dto.getrImg();
+//		int rHit = dto.getrHit();
+//		
+//		try {
+//			conn = factory.getConnection();
+//			StringBuilder sql = new StringBuilder();
+//			sql.append("insert into comments ");
+//			sql.append("values(seq_review_rid.nextval, ?, ?, ?, ?, ?, ?, ?)");
+//			pstmt = conn.prepareStatement(sql.toString());
+//			
+//			pstmt.setInt(1, rType);
+//			pstmt.setString(2, uId);
+//			pstmt.setString(3, rTitle);
+//			pstmt.setString(4, rContent);
+//			pstmt.setString(5, rDate);
+//			pstmt.setString(6, rImg);
+//			pstmt.setInt(7, rHit);
+//			
+//			return pstmt.executeUpdate();
+//		} catch (SQLException e) {
+//			System.out.println("Error : 등록 오류");
+//			e.printStackTrace();
+//		} finally {
+//			factory.close(conn, pstmt);
+//		}
+//		return 0;
+//	}
 	
 	/**
 	 * 3. 후기 글 수정 : updateReview
-	 * Update review set r_title=?, r_content=?, r_img=? 
-	 * where r_id=? and u_id=?
+	 * @param dto 수정한 후기 글 정보
+	 * @return 성공한 쿼리문 라인 수 반환
 	 */
 	public int updateReview(Review dto) {
 		Connection conn = null;
@@ -139,10 +142,12 @@ public class ReviewDao {
 		}
 		return 0;
 	}
-	
+
 	/**
-	 * 4. 후기 글 삭제
-	 * Delete from review where r_id=? and u_id=?
+	 * 4. 후기 글 삭제(일반회원)
+	 * @param rId 후기글 번호
+	 * @param uId 아이디
+	 * @return 성공한 쿼리문 라인 수 반환
 	 */
 	public int userDeleteReview(int rId, String uId) {
 		Connection conn = null;
@@ -150,7 +155,7 @@ public class ReviewDao {
 		
 		try{
 			conn = factory.getConnection();
-			String sql = "delete from review where r_id=? u_id=?";
+			String sql = "delete from review where r_id=? and u_id=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, rId);
 			pstmt.setString(2, uId);
@@ -163,10 +168,11 @@ public class ReviewDao {
 		}
 		return 0;
 	}
-	
+
 	/**
-	 * 4. 후기 글 삭제(관리자)
-	 * Delete from review where r_id=?
+	 * 4-1. 후기 글 삭제(관리자)
+	 * @param rId 후기글번호
+	 * @return 성공한 쿼리문 라인수
 	 */
 	public int adminDeleteReview(int rId) {
 		Connection conn = null;
@@ -189,7 +195,8 @@ public class ReviewDao {
 	
 	/**
 	 * 5. 후기 상세보기 : selectOneReview
-	 * Select * from review where r_id=?
+	 * @param rId 후기번호
+	 * @return 클릭한 후기 정보 
 	 */
 	public Review selectOneReview(int rId) {
 		Connection conn = null;
@@ -224,10 +231,11 @@ public class ReviewDao {
 	}
 	
 	/**
-	 * 6. 후기 전체 보기 : selectAllReview
-	 * Select * from review where r_type=1
+	 * 6. 후기 전체 보기 : userSelectAllReview
+	 * @param 후기 타입(1:밥, 2:공연, 3:게임, 4: 운동, 5:영화)
+	 * @return 전체 후기 리스트 반환
 	 */
-	public ArrayList<Review> selectAllReview() {
+	public ArrayList<Review> userSelectAllReview(int rType) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -236,7 +244,54 @@ public class ReviewDao {
 		
 		try {
 			conn = factory.getConnection();
-			String sql = "select * from review where r_type=1";
+			String sql = "select * from review where r_type=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, rType);
+			rs = pstmt.executeQuery();
+			
+			int rId = 0;
+			String uId = null;
+			String rTitle = null;
+			String rContent = null;
+			String rDate = null;
+			String rImg = null;
+			int rHit = 0;
+			
+			while(rs.next()) {
+				rId = rs.getInt("r_id");
+				uId = rs.getString("u_id");
+				rTitle = rs.getString("r_title");
+				rContent = rs.getString("r_content");
+				rDate = rs.getString("r_date");
+				rImg = rs.getString("r_img");
+				rHit = rs.getInt("r_hit");
+				
+				dto = new Review(rId, rType, uId, rTitle, rContent, rDate, rImg, rHit);
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			System.out.println("Error : 조회 오류");
+			e.printStackTrace();
+		} finally {
+			factory.close(conn, pstmt, rs);
+		}
+		return list;
+	}
+	
+	/**
+	 * 6-1. 관리자 후기 전체보기
+	 * @return 전체 후기 리스트
+	 */
+	public ArrayList<Review> adminSelectAllReview() {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<Review> list = new ArrayList<Review>();
+		Review dto = null;
+		
+		try {
+			conn = factory.getConnection();
+			String sql = "select * from review where r_type<>0 and r_type<>6";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
@@ -273,7 +328,7 @@ public class ReviewDao {
 	
 	/**
 	 * 7. 공지사항 전체보기 : selectNoticeReview
-	 * Select * from review where r_notice=0
+	 * @return 공지사항 전체 리스트 반환
 	 */
 	public ArrayList<Review> selectNoticeReview() {
 		Connection conn = null;
@@ -319,7 +374,8 @@ public class ReviewDao {
 	
 	/**
 	 * 9. 내가 쓴 후기 보기 : selectMyReview
-	 * Select * from review where u_id=?
+	 * @param uId 아이디
+	 * @return 내가 쓴 후기 전체 리스트 반환
 	 */
 	public ArrayList<Review> selectMyReview(String uId) {
 		Connection conn = null;
@@ -364,7 +420,8 @@ public class ReviewDao {
 	
 	/**
 	 * 10. 후기 제목으로 검색 : selectReviewTitle
-	 * Select * from review where r_title=%?%
+	 * @param title 입력한 후기 제목
+	 * @return 입력한 후기제목으로 검색한 후기 리스트
 	 */
 	public ArrayList<Review> selectReviewTitle(String title) {
 		Connection conn = null;
@@ -374,7 +431,7 @@ public class ReviewDao {
 		
 		try {
 			conn = factory.getConnection();
-			String sql = "Select * from review where r_title=?";
+			String sql = "Select * from review where r_title Like ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, "%"+title+"%");
 			rs = pstmt.executeQuery();
@@ -411,8 +468,10 @@ public class ReviewDao {
 	
 	/**
 	 * 11. 후기 조회수 증가
-	 * Update review set r_hit=r_hit+1 where r_id=? and u_id<>?
-	 */ // 세션에 담긴 아이디 말고 선택한 글의 아이디값으로 조건 비교하기
+	 * @param rId 후기 번호
+	 * @param uId 클릭한 후기글의 아이디 
+	 * @return 성공한 쿼리문 라인수
+	 */
 	public int updateReviewHit(int rId, String uId) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;

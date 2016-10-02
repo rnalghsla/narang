@@ -20,24 +20,24 @@ public class UserDao {
 	
 	
 	/**
-	 * È¸¿ø °¡ÀÔ
+	 * ì¼ë°˜ íšŒì› ê°€ì…
 	 * 
-	 * @param u_id ¾ÆÀÌµğ
-	 * @param u_pw ºñ¹Ğ¹øÈ£
-	 * @param name ÀÌ¸§(´Ğ³×ÀÓ)
-	 * @param gender ¼ºº°
-	 * @param age ³ªÀÌ
-	 * @param mobile ¸ğ¹ÙÀÏ
-	 * @param email ÀÌ¸ŞÀÏ
-	 * @param u_img ÇÁ·ÎÇÊ»çÁø
-	 * @return È¸¿øµî·Ï
+	 * @param u_id ì•„ì´ë””
+	 * @param u_pw ë¹„ë°€ë²ˆí˜¸
+	 * @param name ì´ë¦„(ë‹‰ë„¤ì„)
+	 * @param gender ì„±ë³„
+	 * @param age ë‚˜ì´
+	 * @param mobile ëª¨ë°”ì¼
+	 * @param email ì´ë©”ì¼
+	 * @param u_img í”„ë¡œí•„ì‚¬ì§„
+	 * @return íšŒì›ë“±ë¡
 	 */
 	public int insertUser(String u_id, String u_pw, String name, String gender, String age, String mobile, String email,String u_img)  {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		try {
 			conn = factory.getConnection();
-			String sql = "Insert into user values(?,?,?,?,?,?,?,0,?,'G')";
+			String sql = "Insert into users values(?,?,?,?,?,?,?,0,?,'G')";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, u_id);
 			stmt.setString(2, u_pw);
@@ -58,22 +58,22 @@ public class UserDao {
 	}
 	
 	/**
-	 * ³×ÀÌ¹ö·Î ·Î±×ÀÎÇÏ´Â »ç¶÷ µî·Ï 
+	 * ë„¤ì´ë²„ë¡œ ë¡œê·¸ì¸í•˜ëŠ” ì‚¬ëŒ ë“±ë¡ 
 	 * 
-	 * @param u_id ¾ÆÀÌµğ
-	 * @param name ÀÌ¸§
-	 * @param gender ¼ºº°
-	 * @param age ³ªÀÌ
-	 * @param email ÀÌ¸ŞÀÏ
-	 * @param u_img ÀÌ¹ÌÁö
-	 * @return È¸¿øµî·Ï
+	 * @param u_id ì•„ì´ë””
+	 * @param name ì´ë¦„
+	 * @param gender ì„±ë³„
+	 * @param age ë‚˜ì´
+	 * @param email ì´ë©”ì¼
+	 * @param u_img ì´ë¯¸ì§€
+	 * @return íšŒì›ë“±ë¡
 	 */
 	public int insertUser(String u_id, String name, String gender, String age, String email,String u_img)  {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		try {
 			conn = factory.getConnection();
-			String sql ="Insert into user values(?,null,?,?,?,null,?,0,?,'N')";
+			String sql ="Insert into users values(?,null,?,?,?,null,?,0,?,'N')";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, u_id);
 			stmt.setString(2, name);
@@ -92,19 +92,19 @@ public class UserDao {
 	}
 	
 	/**
-	 * Ä«Ä«¿À·Î ·Î±×ÀÎ ÇÏ´Â È¸¿ø µî·Ï
+	 * ì¹´ì¹´ì˜¤ë¡œ ë¡œê·¸ì¸ í•˜ëŠ” íšŒì› ë“±ë¡
 	 * 
-	 * @param u_id ¾ÆÀÌµğ
-	 * @param name ÀÌ¸§(´Ğ³×ÀÓ)
-	 * @param u_img ÀÌ¹ÌÁö
-	 * @return È¸¿øµî·Ï
+	 * @param u_id ì•„ì´ë””
+	 * @param name ì´ë¦„(ë‹‰ë„¤ì„)
+	 * @param u_img ì´ë¯¸ì§€
+	 * @return íšŒì›ë“±ë¡
 	 */
 	public int insertUser(String u_id, String name ,String u_img)  {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		try {
 			conn = factory.getConnection();
-			String sql ="Insert into user values(?,null,?,null,null,null,null,0,?,'K')";
+			String sql ="Insert into users values(?,null,?,null,null,null,null,0,?,'K')";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, u_id);
 			stmt.setString(2, name);
@@ -120,11 +120,11 @@ public class UserDao {
 	}
 	
 	/**
-	 * ·Î±×ÀÎ ¸Ş¼­µå 
+	 * ë¡œê·¸ì¸ ë©”ì„œë“œ 
 	 * 
-	 * @param u_id À¯Àú¾ÆÀÌµğ
-	 * @param u_pw À¯Àúºñ¹Ğ¹øÈ£
-	 * @return ÀÌ¸§, µî±Ş ¹İÈ¯
+	 * @param u_id ìœ ì €ì•„ì´ë””
+	 * @param u_pw ìœ ì €ë¹„ë°€ë²ˆí˜¸
+	 * @return ì´ë¦„, ë“±ê¸‰ ë°˜í™˜
 	 */
 	public HashMap<String, String> login(String u_id, String u_pw){
 		Connection conn = null;
@@ -143,6 +143,7 @@ public class UserDao {
 				map.put("grade", rs.getString(2));
 				temp_id = u_id;
 			}
+			System.out.println("dao : "+map);
 			return map;
 		} catch (SQLException e) {
 			System.out.println("error: login error");
@@ -154,14 +155,14 @@ public class UserDao {
 	}
 	
 	/**
-	 * ³»Á¤º¸ º¯°æ ¸Ş¼­µå 
+	 * ë‚´ì •ë³´ ë³€ê²½ ë©”ì„œë“œ 
 	 * 
-	 * @param u_id È¸¿ø ¾ÆÀÌµğ
-	 * @param name È¸¿ø ÀÌ¸§
-	 * @param mobile È¸¿ø ¸ğ¹ÙÀÏ
-	 * @param email È¸¿ø ÀÌ¸ŞÀÏ
-	 * @param u_img ÇÁ·ÎÇÊ»çÁø
-	 * @return È¸¿ø Á¤º¸ º¯°æ½Ã 1 º¯°æºÒ°¡´É½Ã 0 ¹İÈ¯
+	 * @param u_id íšŒì› ì•„ì´ë””
+	 * @param name íšŒì› ì´ë¦„
+	 * @param mobile íšŒì› ëª¨ë°”ì¼
+	 * @param email íšŒì› ì´ë©”ì¼
+	 * @param u_img í”„ë¡œí•„ì‚¬ì§„
+	 * @return íšŒì› ì •ë³´ ë³€ê²½ì‹œ 1 ë³€ê²½ë¶ˆê°€ëŠ¥ì‹œ 0 ë°˜í™˜
 	 */
 	public int updateMyUserInfo(String u_id , String name, String mobile, String email, String u_img){
 		Connection conn = null;
@@ -187,12 +188,12 @@ public class UserDao {
 	}
 	
 	/**
-	 * ºñ¹Ğ¹øÈ£ º¯°æ ¸Ş¼­µå 
+	 * ë¹„ë°€ë²ˆí˜¸ ë³€ê²½ ë©”ì„œë“œ 
 	 * 
-	 * @param u_id À¯Àú¾ÆÀÌµğ
-	 * @param u_pw À¯Àúºñ¹Ğ¹øÈ£
-	 * @param ch_pw À¯Àú º¯°æ ºñ¹Ğ¹øÈ£
-	 * @return ºñ¹Ğ¹øÈ£°¡ ¿Ï·áµÇ¸é 1 ¾Æ´Ï¸é 0 ¹İÈ¯
+	 * @param u_id ìœ ì €ì•„ì´ë””
+	 * @param u_pw ìœ ì €ë¹„ë°€ë²ˆí˜¸
+	 * @param ch_pw ìœ ì € ë³€ê²½ ë¹„ë°€ë²ˆí˜¸
+	 * @return ë¹„ë°€ë²ˆí˜¸ê°€ ì™„ë£Œë˜ë©´ 1 ì•„ë‹ˆë©´ 0 ë°˜í™˜
 	 */
 	public int updateUserPw(String u_id, String u_pw, String ch_pw){
 		Connection conn = null;
@@ -216,9 +217,9 @@ public class UserDao {
 	}
 	
 	/**
-	 * ³»Á¤º¸ Á¶È¸ ¸Ş¼­µå
+	 * ë‚´ì •ë³´ ì¡°íšŒ ë©”ì„œë“œ
 	 * 
-	 * @return È¸¿ø Á¤º¸
+	 * @return íšŒì› ì •ë³´
 	 */
 	public User selectMyUserInfo() {
 		Connection conn = null;
@@ -252,18 +253,18 @@ public class UserDao {
 	}
 	
 	/**
-	 * È¸¿ø Å»Åğ ¸Ş¼­µå
+	 * íšŒì› íƒˆí‡´ ë©”ì„œë“œ
 	 * 
-	 * @param u_id È¸¿ø¾ÆÀÌµğ
-	 * @param u_pw È¸¿øºñ¹Ğ¹øÈ£
-	 * @return Å»Åğ¼º°ø½Ã 1 ¾Æ´Ò½Ã 0 ¹İÈ¯
+	 * @param u_id íšŒì›ì•„ì´ë””
+	 * @param u_pw íšŒì›ë¹„ë°€ë²ˆí˜¸
+	 * @return íƒˆí‡´ì„±ê³µì‹œ 1 ì•„ë‹ì‹œ 0 ë°˜í™˜
 	 */
 	public int updateUserGradeNone(String u_id, String u_pw){
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		try {
 			conn = factory.getConnection();
-			String sql = "Update users set grade =¡®X¡¯ where u_id =? and u_pw=?";
+			String sql = "Update users set grade =â€˜Xâ€™ where u_id =? and u_pw=?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, u_id);
 			stmt.setString(2, u_pw);
@@ -279,9 +280,9 @@ public class UserDao {
 	}
 	
 	/**
-	 * È¸¿ø ÀüÃ¼ Á¶È¸
+	 * íšŒì› ì „ì²´ ì¡°íšŒ
 	 * 
-	 * @return ¸ğµç È¸¿ø Á¤º¸ Á¶È¸
+	 * @return ëª¨ë“  íšŒì› ì •ë³´ ì¡°íšŒ
 	 */
 	public ArrayList<User> selectAllUser() {
 		Connection conn = null;
@@ -318,9 +319,9 @@ public class UserDao {
 	}
 	
 	/**
-	 * ºí·¢¸®½ºÆ® ÀüÃ¼Á¶È¸
+	 * ë¸”ë™ë¦¬ìŠ¤íŠ¸ ì „ì²´ì¡°íšŒ
 	 * 
-	 * @return ºí·¢¸®½ºÆ® È¸¿ø Á¤º¸ 
+	 * @return ë¸”ë™ë¦¬ìŠ¤íŠ¸ íšŒì› ì •ë³´ 
 	 */
 	public ArrayList<User> selectUserBlackList() {
 		Connection conn = null;
@@ -357,10 +358,10 @@ public class UserDao {
 	}
 	
 	/**
-	 * ÇÑ È¸¿ø »ó¼¼Á¶È¸
+	 * í•œ íšŒì› ìƒì„¸ì¡°íšŒ
 	 * 
-	 * @param u_id È¸¿ø ¾ÆÀÌµğ
-	 * @return È¸¿ø °³ÀÎÁ¤º¸ Á¶È¸
+	 * @param u_id íšŒì› ì•„ì´ë””
+	 * @return íšŒì› ê°œì¸ì •ë³´ ì¡°íšŒ
 	 */
 	public User selectOneUser(String u_id){
 		Connection conn = null;
@@ -394,16 +395,16 @@ public class UserDao {
 	}
 	
 	/**
-	 * ÀüÃ¼ È¸¿ø Á¤º¸ º¯°æ ¸Ş¼­µå
+	 * ì „ì²´ íšŒì› ì •ë³´ ë³€ê²½ ë©”ì„œë“œ
 	 * 
-	 * @return ÀüÃ¼È¸¿øÁ¤º¸°¡ º¯°æµÇ¸é º¯°æµÈ ¼ıÀÚ¸¸Å­ ¾Æ´Ï¸é 0 ¹İÈ¯
+	 * @return ì „ì²´íšŒì›ì •ë³´ê°€ ë³€ê²½ë˜ë©´ ë³€ê²½ëœ ìˆ«ìë§Œí¼ ì•„ë‹ˆë©´ 0 ë°˜í™˜
 	 */
 	public int updateAllUserInfo(){
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		try {
 			conn = factory.getConnection();
-			String sql = "Update users set grade=¡®G¡¯ from user";
+			String sql = "Update users set grade=â€˜Gâ€™ from user";
 			stmt = conn.prepareStatement(sql);
 			int rows = stmt.executeUpdate();
 			return rows;
@@ -417,16 +418,16 @@ public class UserDao {
 	}
 	
 	/**
-	 * Æ¯Á¤ È¸¿ø Á¤º¸ º¯°æ 
+	 * íŠ¹ì • íšŒì› ì •ë³´ ë³€ê²½ 
 	 * 
-	 * @param u_id È¸¿ø¾ÆÀÌµğ
-	 * @param name ÀÌ¸§
-	 * @param email ÀÌ¸ŞÀÏ
-	 * @param gender ¼ºº°
-	 * @param age ³ªÀÌ
-	 * @param mobile ¸ğ¹ÙÀÏ
-	 * @param grade µî±Ş
-	 * @return º¯°æµÇ¸é 1 º¯°æµÇÁö¾ÊÀ¸¸é 0 ¹İÈ¯
+	 * @param u_id íšŒì›ì•„ì´ë””
+	 * @param name ì´ë¦„
+	 * @param email ì´ë©”ì¼
+	 * @param gender ì„±ë³„
+	 * @param age ë‚˜ì´
+	 * @param mobile ëª¨ë°”ì¼
+	 * @param grade ë“±ê¸‰
+	 * @return ë³€ê²½ë˜ë©´ 1 ë³€ê²½ë˜ì§€ì•Šìœ¼ë©´ 0 ë°˜í™˜
 	 */
 	public int updateOneUserInfo(String u_id, String name, String email, String gender, String age, String mobile, String grade){
 		Connection conn = null;
@@ -454,10 +455,10 @@ public class UserDao {
 	}
 	
 	/**
-	 * È¸¿ø »èÁ¦ ¸Ş¼­µå
+	 * íšŒì› ì‚­ì œ ë©”ì„œë“œ
 	 * 
-	 * @param u_id È¸¿ø¾ÆÀÌµğ
-	 * @param u_pw È¸¿ø ºñ¹Ğ¹øÈ£
+	 * @param u_id íšŒì›ì•„ì´ë””
+	 * @param u_pw íšŒì› ë¹„ë°€ë²ˆí˜¸
 	 * @return
 	 */
 	public int deleteUser(String u_id, String u_pw) {
@@ -480,7 +481,146 @@ public class UserDao {
 		return 0;
 	}
 	
+//------------------------------------------------í•˜ë‹ˆ ì¶”ê°€----------------------------------------------------------
+
+	/**
+	 * íšŒì› ì¤‘ë³µ ì¡°íšŒ
+	 * @param uId íšŒì›ì•„ì´ë””
+	 * @return ì¡´ì¬í•˜ë©´ true, ì¡´ì¬í•˜ì§€ ì•Šìœ¼ë©´ false
+	 */
+	public boolean dupliUser(String uId) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			conn = factory.getConnection();
+			String sql = "select name from users where u_id=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, uId);
+			rs = stmt.executeQuery();
+			if (rs.next()) {
+				return true;
+			}
+		} catch (SQLException e) {
+			System.out.println("error: dupliUser error");
+			e.printStackTrace();
+		} finally {
+			factory.close(conn, stmt, rs);
+		}
+		return false;
+	}
 	
+	/**
+	 * ë¡œê·¸ì¸ë•Œ íšŒì› ì´ë¯¸ì§€ ì—…ë°ì´íŠ¸
+	 * @param uImg íšŒì›ì´ë¯¸ì§€
+	 * @param uId íšŒì›ì•„ì´ë””
+	 * @return
+	 */
+	public int updateUserImg(String uImg, String uId) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			conn = factory.getConnection();
+			String sql = "update users set u_img=? where u_id=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, uImg);
+			stmt.setString(2, uId);
+			return stmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("error: UpdateUserImg error");
+			e.printStackTrace();
+		} finally {
+			factory.close(conn, stmt, rs);
+		}
+		return -1;
+	}
 	
+	/**
+	 * ì•„ì´ë””ì°¾ê¸°
+	 * @param mobile í•¸ë“œí°
+	 * @param name ì´ë¦„
+	 * @return
+	 */
+	public String selectId(String mobile, String name){
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			conn = factory.getConnection();
+			String sql = "select u_id from users where mobile=? and name=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, mobile);
+			stmt.setString(2, name);
+			rs = stmt.executeQuery();
+			if (rs.next()) {
+				String u_id = rs.getString("u_id");
+				return u_id;
+			}
+		} catch (SQLException e) {
+			System.out.println("error: selectPw error");
+			e.printStackTrace();
+		} finally {
+			factory.close(conn, stmt, rs);
+		}
+		return null;
+	}
+	
+	/**
+	 * ì•„ì´ë””ì°¾ê¸° 1ë‹¨ê³„
+	 * @param uId íšŒì›ì•„ì´ë””
+	 * @param name ì´ë¦„
+	 * @return
+	 */
+	public int selectPw(String uId, String name){
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			conn = factory.getConnection();
+			String sql = "Select * from users where u_id=? and name=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, uId);
+			stmt.setString(2, name);
+			rs = stmt.executeQuery();
+			if (rs.next()) {
+				return 1;
+			}
+		} catch (SQLException e) {
+			System.out.println("error: selectPw error");
+			e.printStackTrace();
+		} finally {
+			factory.close(conn, stmt, rs);
+		}
+		return -1;
+	}
+	
+	/**
+	 * ë¹„ë°€ë²ˆí˜¸ ì°¾ê¸° 2ë‹¨ê³„
+	 * @param uId íšŒì›ì•„ì´ë””
+	 * @param uPw ë¹„ë°€ë²ˆí˜¸
+	 * @return
+	 */
+	public int selectPw2(String uId, String uPw){
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		System.out.println("dao :"+uId);
+		System.out.println("dao :"+uPw);
+		try {
+			conn = factory.getConnection();
+			String sql = "update users set u_pw=? where u_id=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, uPw);
+			stmt.setString(2, uId);
+			return stmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("error: selectPw2 error");
+			e.printStackTrace();
+		} finally {
+			factory.close(conn, stmt, rs);
+		}
+		return -1;
+	}
 	
 }

@@ -1,0 +1,197 @@
+@charset "UTF-8";
+.mbody {
+	background-color: #FFF;
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+}
+.mcontainer {
+	background-color: #FFF;
+	width: 100%;
+	height: auto;
+	margin-left: auto;
+	margin-right: auto;
+	border-bottom-width: 0px;
+}
+.mcontainers {
+	background-color: #FFFFFF;
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+	border-bottom-width: 0px;
+	padding: 10px;
+}
+html {
+  font-family: "나눔명조";
+  -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+}
+
+/* h2 */
+h2 {
+	orphans: 3;
+	widows: 3;
+	page-break-after: avoid;
+}
+
+.h2menu {
+	font-family: "나눔명조";
+	background-color: #fbe601;
+	height: 30px;
+}
+
+.mcontainer .h2menu ul {
+	margin-top: 0%;
+	margin-right: auto;
+	margin-bottom: 0px;
+	margin-left: auto;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 15px;
+	padding-left: 0px;
+	width: 100%;
+}
+.h2menu ul li {
+	list-style: none;
+	float: left;
+	font-family: "나눔명조";
+	font-weight: bold;
+	font-size: 15px;
+	color: #340505;
+	letter-spacing: 5px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: auto;
+	padding-top: 5px;
+	text-align: center;
+	width: 14.28%;
+	transition: all 0.3s linear;
+}
+.h2menu ul li:hover {
+	color: #FFFFFF;
+	cursor: pointer;
+}
+
+
+.mtext-center {
+  text-align: center;
+}
+
+/* headers */
+headers {
+	text-align: center;
+	display: block;
+}
+headers .profileLogo .logoPlaceholder {
+	background-color: #340505;
+	width: 187px;
+	text-align: center;
+}
+headers .logoPlaceholder span {
+	width: 80px;
+	height: 22px;
+	font-family: "나눔명조";
+	color: #340505;
+	font-size: 30px;
+	font-weight: 700;
+	line-height: 53px;
+}
+headers .profilePhoto {
+	background-color: #340505;
+	width: 259px;
+	border-radius: 50%;
+	height: 259px;
+	clear: both;
+}
+headers .profileheaders h1 {
+	font-family: "나눔명조";
+	color: #340505;
+	font-size: 30px;
+	font-weight: 700;
+	line-height: 24px;
+}
+headers .profileheaders h3 {
+	font-family: "나눔명조";
+	color: #340505;
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 24px;
+}
+hr {
+	background-color: #fbe601;
+	height: 30px;
+}
+headers .profileheaders p {
+	font-family: "나눔명조";
+	color: #340505;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.8;
+	overflow-y: auto;
+}
+headers .socialNetworkNavBar {
+	text-align: center;
+	display: block;
+	margin-top: 60px;
+	clear: both;
+}
+headers .socialNetworkNavBar .socialNetworkNav {
+	border-radius: 50%;
+	cursor: pointer;
+}
+headers .socialNetworkNavBar .socialNetworkNav img:hover {
+	opacity: 0.5;
+}
+
+/* Media Query for Tablets */
+@media only screen and (min-width : 481px) and (max-width : 1024px) {
+/* headers */
+headers {
+	width: 100%;
+	float: none;
+}
+headers .profileLogo .logoPlaceholder {
+	display: inline-block;
+	font-family: "나눔명조";
+}
+headers .profilePhoto {
+	float: left;
+	clear: both;
+	margin-right: 3%;
+	margin-top: 5%;
+}
+headers .profileheaders {
+	text-align: left;
+	margin-top: 7%;
+}
+headers .socialNetworkNavBar .socialNetworkNav {
+	width: 74px;
+	height: 74px;
+	display: inline-block;
+	margin-right: 23px;
+}
+}
+
+/* Desktops and laptops  */
+@media only screen and (min-width:1025px) {
+/* headers */
+headers .profileLogo .logoPlaceholder {
+	float: left;
+	margin-bottom: 50px;
+}
+headers .profilePhoto {
+	float: left;
+	clear: both;
+	margin-right: 3%;
+}
+headers .profileheaders {
+	text-align: left;
+	padding-top: 10%;
+}
+headers .socialNetworkNavBar .socialNetworkNav {
+	width: 74px;
+	height: 74px;
+	display: inline-block;
+	margin-right: 23px;
+}
+}

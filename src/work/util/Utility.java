@@ -1,11 +1,17 @@
 package work.util;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
+
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletResponse;
 
 public class Utility {
 
@@ -238,6 +244,31 @@ public class Utility {
 		return data;
 	}
 
+	//---------------------------------------------------------------------------------------//
+    public static void writeImage(HttpServletResponse response, BufferedImage bi) {
+        
+        response.setHeader("Cache-Control", "private,no-cache,no-store");
+        response.setContentType("image/png");
+         
+        try {
+            writeImage(response.getOutputStream(), bi);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+         
+    }
+ 
+    public static void writeImage(OutputStream os, BufferedImage bi) {
+         
+        try {
+            ImageIO.write(bi, "png", os);
+            os.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+         
+    }
+    
 	public static void main(String[] args) {
 		System.out.println("## java.lang.Math#random()를 이용했을 때");
 		System.out.println(Utility.getSecureCode());

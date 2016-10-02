@@ -1,5 +1,9 @@
 delete from board;
 
+
+ALTER SESSION SET NLS_DATE_FORMAT='YYYY-MM-DD HH24:MI:SS' ;
+
+
 Insert into board 
 values(board_count.nextval,1,'맛집에 초대합니다', 'kim','저번에 왔던 곳인데 맛있어서 회원님들 초대합니다','삼육대학교 스와레',3,
 to_date(sysdate,'yyyy-mm-dd HH24:MI:SS'),

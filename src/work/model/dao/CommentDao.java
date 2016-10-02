@@ -19,10 +19,11 @@ public class CommentDao {
 		return instance;
 	}
 	
+	
 	/**
 	 * 1. 댓글 등록
-	 * Insert into comments
-	 * values(comments_count.nextval, 1, ‘park’, ‘이 모임 좋아요~’, sysdate);
+	 * @param dto 입력한 댓글에 대한 정보
+	 * @return 성공한 쿼리문 라인 수 반환
 	 */
 	public int  insertComment(Comment dto) {
 		Connection conn = null;
@@ -38,14 +39,13 @@ public class CommentDao {
 			conn = factory.getConnection();
 			StringBuilder sql = new StringBuilder();
 			sql.append("insert into comments ");
-			sql.append("values(?, ?, ?, ?, ?)");
+			sql.append("values(comments_count, ?, ?, ?, ?)");
 			pstmt = conn.prepareStatement(sql.toString());
 			
-			pstmt.setInt(1, cId);
-			pstmt.setInt(2, bId);
-			pstmt.setString(3, uId);
-			pstmt.setString(4, cContent);
-			pstmt.setString(5, cDate);
+			pstmt.setInt(1, bId);
+			pstmt.setString(2, uId);
+			pstmt.setString(3, cContent);
+			pstmt.setString(4, cDate);
 			
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -59,8 +59,9 @@ public class CommentDao {
 	
 	/**
 	 * 2. 댓글 수정
-	 * Update comments set
-	 * c_content = ‘비오면 어떻게 되나요?’ where c_id= 3;
+	 * @param cId 댓글번호
+	 * @param cContent 댓글내용
+	 * @return 성공한 쿼리문 라인 수 반환
 	 */
 	public int updateComment(int cId, String cContent) {
 		Connection conn = null;
@@ -88,8 +89,99 @@ public class CommentDao {
 	}
 	
 	/**
-	 * 3. 내가 쓴 댓글 보기
-	 * Select * From comments Where u_id='park';
+	 * 3. 게시글 클릭시 댓글 리스트 보기
+	 * @param bId 게시글 번호
+	 * @return 게시글마다 작성된 댓글 리스트
+	 */
+	public ArrayList<Comment> selectComment(int bId) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<Comment> list = new ArrayList<Comment>();
+		
+		try {
+			conn = factory.getConnection();
+			String sql = "select * from comments where b_id=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bId);
+			rs = pstmt.executeQuery();
+			
+			int cId = 0;
+			String uId = null;
+			String cContent = null;
+			String cDate = null;
+			
+			while(rs.next()) {
+				cId = rs.getInt("c_id");
+				uId = rs.getString("u_id");
+				cContent = rs.getString("c_content");
+				cDate = rs.getString("c_date");
+				
+				list.add(new Comment(cId, bId, uId, cContent, cDate));
+			}
+		} catch (SQLException e) {
+			System.out.println("Error : 조회 오류");
+			e.printStackTrace();
+		} finally {
+			factory.close(conn, pstmt, rs);
+		}
+		return list;
+	}
+	
+	/**
+	 * 4. 회원 : 댓글 삭제
+	 * @param cId 댓글번호
+	 * @param uId 아이디
+	 * @return 성공한 쿼리문 라인 수 반환
+	 */
+	public int userDeleteComment(int cId, String uId) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try{
+			conn = factory.getConnection();
+			String sql = "delete from comments where c_id=? and u_id=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cId);
+			pstmt.setString(2, uId);
+			return pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("Error : 삭제 오류");
+			e.printStackTrace();
+		} finally {
+			factory.close(conn, pstmt);			
+		}
+		return 0;
+	}
+	
+	/**
+	 * 4-1. 관리자 : 댓글 삭제
+	 * @param cId 댓글 번호
+	 * @return 성공한 쿼리문 라인 수 반환
+	 */
+	public int adminDeleteComment(int cId) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try{
+			conn = factory.getConnection();
+			String sql = "delete from comments where c_id=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cId);
+			return pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("Error : 삭제 오류");
+			e.printStackTrace();
+		} finally {
+			factory.close(conn, pstmt);			
+		}
+		return 0;
+	}
+	
+	/**
+	 * 5. 내가 쓴 댓글 보기
+	 * @param uId 아이디
+	 * @return 내가 작성한 댓글 리스트 반환
 	 */
 	public ArrayList<Comment> selectMyComment(String uId) {
 		Connection conn = null;
@@ -124,28 +216,5 @@ public class CommentDao {
 			factory.close(conn, pstmt, rs);
 		}
 		return list;
-	}
-	
-	/**
-	 * 4. 댓글 삭제
-	 * Delete from comments Where c_id=2;
-	 */
-	public int deleteComment(int cId) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		
-		try{
-			conn = factory.getConnection();
-			String sql = "delete from comments where c_id=?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, cId);
-			return pstmt.executeUpdate();
-		} catch (SQLException e) {
-			System.out.println("Error : 삭제 오류");
-			e.printStackTrace();
-		} finally {
-			factory.close(conn, pstmt);			
-		}
-		return 0;
 	}
 }
